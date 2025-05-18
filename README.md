@@ -21,8 +21,7 @@
 
 You can download the latest version of the RoommateSync app as a ZIP file containing the APK here:
 
-[Download RoommateSync APK (ZIP)]([https://drive.google.com/file/d/1PKyr8fhm340mXiI5kiobWPRFNgRbwWEL/view?usp=share_link](https://drive.google.com/file/d/1mvv3AXtLdhVNNnAEcwbhhJMOgigLRJ5E/view?usp=share_link))
-
+[Download RoommateSync APK (ZIP)](https://drive.google.com/file/d/1mvv3AXtLdhVNNnAEcwbhhJMOgigLRJ5E/view?usp=share_link)
 > **Note:**  
 > This ZIP file contains the APK for the RoommateSync app.  
 > Your browser may show a security warning like "This file can harm your computer." This is a standard precaution for files downloaded from the internet.  
