@@ -17,7 +17,7 @@
 - 📜 **Privacy Policy Page** – Transparent privacy practices displayed in-app.
 
 ---
-## 📲 Download RoommateSync APK 🚀
+## 📲 Download Pawstively_Adopt APK 🚀
 
 You can download the latest version of the RoommateSync app as a ZIP file containing the APK here:
 
