@@ -63,5 +63,3 @@ List<bool> isTap =[
 List<bool> tapped = [
   false,false,false,false,false,
 ];
-
-

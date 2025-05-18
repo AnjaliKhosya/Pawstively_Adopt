@@ -306,27 +306,10 @@ class privacy extends StatelessWidget {
                       color: Colors.black54,
                     ),),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('Aakash Yadav',
-                    style: TextStyle(
-                      fontFamily: 'gabarito',
-                      fontSize: 15,
-                      color: Colors.black54,
-                    ),),
-                ),
+
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text('or by email at: anjaliydvoffical@gmail.com',
-                    style: TextStyle(
-                      fontFamily: 'gabarito',
-                      fontSize: 15,
-                      color: Colors.black54,
-                    ),),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('or by email at: yaakash519@gmail.com',
                     style: TextStyle(
                       fontFamily: 'gabarito',
                       fontSize: 15,

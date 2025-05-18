@@ -1,173 +1,270 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'configuration.dart';
+import 'Configuration.dart';
 import 'detail_page.dart';
 
-class favorite_page extends StatefulWidget {
-  VoidCallback opendrawer;
-  favorite_page(this.opendrawer);
+class FavoritePage extends StatefulWidget {
+  final VoidCallback opendrawer;
+  final String? uid;
+
+  FavoritePage(this.opendrawer, this.uid);
 
   @override
-  State<favorite_page> createState() => _favorite_pageState();
+  State<FavoritePage> createState() => _FavoritePageState();
 }
 
-class _favorite_pageState extends State<favorite_page> {
-
-  var color;
-  DocumentReference? doc;
+class _FavoritePageState extends State<FavoritePage> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    if (widget.uid == null) {
+      return Scaffold(
         appBar: AppBar(
-          title: Text('Favorites'),
+          title: const Text('Favorites'),
           centerTitle: true,
           backgroundColor: Colors.teal,
-          leading: IconButton(icon: Icon(Icons.arrow_back),onPressed: (){
-            setState(() {
-              widget.opendrawer();
-            });
-          },),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: widget.opendrawer,
+          ),
         ),
-        body: Container(
-            child: StreamBuilder(
-                stream: FirebaseFirestore.instance.collection("favorites").snapshots(),
-                builder: (context,AsyncSnapshot<QuerySnapshot>snapshot) {
-                  if (snapshot.hasError) {
-                    // If there's an error with the stream, handle it here
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    // If the stream has emitted data, you can work with it
-                    List<DocumentSnapshot> documents = snapshot.data!.docs;
-                    // You can now use 'documents' to build your UI or perform other operations
-                    return ListView.builder(
-                      itemCount: documents.length,
-                      itemBuilder: (context,index)
-                      {
-                        // Access data from each document using 'documents[index].data()'
-                        Map<String, dynamic>? documentData = documents[index].data() as Map<String, dynamic>?;
-                        bool isfavorite = true;
-                        // Use the null-aware operator to safely access the 'name' property
-                        String name = documentData?['Name'] ?? 'N/A';
-                        String gender = documentData?['Gender'] ?? 'N/A';
-                        String breed = documentData?['Breed'] ?? 'N/A';
-                        String age = documentData?['Age'] ?? 'N/A';
-                        String imageurl = documentData?['imagurl'] ?? 'N/A';
-                        String loc = documentData?['loc'] ?? 'N/A';
-                        String resn = documentData?['resn'] ?? 'N/A';
-                        String ownername = documentData?['Owner name']?? 'N/A';
-                        String doc_id = documents[index].id;
-                        String height = documentData?['height']??'N/A';
-                        String weight = documentData?['weight']??'N/A';
-                        String price = documentData?['price']??'N/A';
-                        String contact_no = documentData?['contact_no']??'N/A';
-                        // Return a widget based on the data
-                        return GestureDetector(
-                          onTap: (){
-                            if(index%2==0)
-                              color = Colors.blueGrey[300];
-                            else
-                              color = Colors.amber[200];
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>detail_page(name,ownername,resn,breed,age,imageurl,gender,color,loc,height,weight,price,contact_no)));
-                          },
+        body: const Center(child: Text('User ID is missing.')),
+      );
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Favorites'),
+        centerTitle: true,
+        backgroundColor: Colors.teal,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: widget.opendrawer,
+        ),
+      ),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection("users")
+            .doc(widget.uid)
+            .collection("favorites")
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return const Center(child: Text('No favorites yet.'));
+          }
+
+          final documents = snapshot.data!.docs;
+
+          return ListView.builder(
+            itemCount: documents.length,
+            itemBuilder: (context, index) {
+              final data = documents[index].data()! as Map<String, dynamic>;
+
+              final name = data['name'] ?? 'N/A';
+              final gender = data['gender'] ?? 'N/A';
+              final breed = data['breed'] ?? 'N/A';
+              final age = data['age'] ?? 'N/A';
+              final imageurl = data['imagepath'] ?? '';
+              final loc = data['loc'] ?? 'N/A';
+              final resn = data['resn'] ?? 'N/A';
+              final ownername = data['ownername'] ?? 'N/A';
+              final height = data['height'] ?? 'N/A';
+              final weight = data['weight']?.toString() ?? 'N/A';
+              final price = data['price'] ?? 'N/A';
+              final contact_no = data['contact_no'] ?? 'N/A';
+              final petType = data['petType'] ?? 'unknown';
+              final petId = data['petId'] ?? '';
+
+              final cardColor =
+              (index % 2 == 0) ? Colors.blueGrey[300]! : Colors.amber[200]!;
+
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => detail_page(
+                        name,
+                        ownername,
+                        resn,
+                        breed,
+                        age,
+                        imageurl,
+                        gender,
+                        cardColor,
+                        loc,
+                        height,
+                        weight,
+                        price,
+                        contact_no,
+                        widget.uid!,
+                        petId
+                      ),
+                    ),
+                  );
+                },
+                child: Hero(
+                  tag: 'drag',
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    height: 230,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Stack(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  boxShadow: shadowList,
+                                  borderRadius: BorderRadius.circular(20.0),
+                                  color: cardColor,
+                                ),
+                                margin: const EdgeInsets.only(top: 40.0),
+                              ),
+                              Align(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 8.0),
+                                  child: Container(
+                                    height: 160,
+                                    width: 130,
+                                    child: imageurl.isNotEmpty
+                                        ? Image.network(imageurl, fit: BoxFit.cover)
+                                        : Container(),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
                           child: Container(
-                            margin:EdgeInsets.symmetric(horizontal: 20),
-                            height: 220,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Stack(
+                            margin: const EdgeInsets.only(top: 60, bottom: 25.0),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: shadowList,
+                              borderRadius: const BorderRadius.only(
+                                topRight: Radius.circular(20.0),
+                                bottomRight: Radius.circular(20.0),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          boxShadow: shadowList,
-                                          borderRadius: BorderRadius.circular(20.0),
-                                          color: (index%2==0)? Colors.blueGrey[300]: Colors.amber[200],
-
+                                      Text(
+                                        name,
+                                        style: const TextStyle(
+                                          fontFamily: 'gabarito',
+                                          fontSize: 30,
                                         ),
-
-                                        margin: EdgeInsets.only(top: 40.0),
                                       ),
-                                      Align(
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(bottom: 8.0),
-                                          child: Container(
-                                              height: 160,
-                                              child: imageurl!=null?Image.network(imageurl):Container()),
-                                        ),
+                                      IconButton(
+                                        onPressed: () async {
+                                          final confirm = await showDialog<bool>(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                              title: const Text('Remove Favorite?'),
+                                              content: const Text(
+                                                  'Are you sure you want to remove this pet from favorites?'),
+                                              actions: [
+                                                TextButton(
+                                                  child: const Text('Cancel'),
+                                                  onPressed: () =>
+                                                      Navigator.of(context).pop(false),
+                                                ),
+                                                TextButton(
+                                                  child: const Text('Remove'),
+                                                  onPressed: () =>
+                                                      Navigator.of(context).pop(true),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+
+                                          if (confirm == true) {
+                                            // Delete from user's favorites
+                                            await FirebaseFirestore.instance
+                                                .collection("users")
+                                                .doc(widget.uid)
+                                                .collection("favorites")
+                                                .doc(documents[index].id)
+                                                .delete();
+
+                                            // Set isfavorite = false globally
+                                            if (petType != 'unknown' && petId.isNotEmpty) {
+                                              await FirebaseFirestore.instance
+                                                  .collection(petType)
+                                                  .doc(petId)
+                                                  .update({'isfavorite': false});
+                                            }
+                                          }
+                                        },
+                                        icon: Icon(Icons.favorite, color: Colors.red[400]),
                                       ),
                                     ],
                                   ),
-                                ),
-                                Expanded(child: Container(
-                                  margin: EdgeInsets.only(top: 60,bottom: 25.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    boxShadow: shadowList,
-                                    borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(20.0),
-                                      bottomRight: Radius.circular(20.0),
+                                  Padding(
+                                    padding:
+                                    const EdgeInsets.only(left: 5.0, bottom: 2.0),
+                                    child: Text(
+                                      breed,
+                                      style: const TextStyle(
+                                          fontFamily: 'gabarito', color: Colors.black54),
                                     ),
                                   ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 1.0,left: 14.0,right: 5.0),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(top: 4.0),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(name,style: TextStyle(fontFamily: 'gabarito',fontSize: 25),),
-                                             IconButton(onPressed: ()async{
-                                                isfavorite = false;
-                                                DocumentReference _documentReference = FirebaseFirestore.instance.collection("favorites").doc(doc_id);
-                                                await _documentReference.delete();
-
-                                             }, icon: Icon(
-                                               isfavorite?Icons.favorite:Icons.favorite_border_sharp,
-                                               color: isfavorite? Colors.red[400]:Colors.white,
-                                             ),
-                                             ),
-                                            ]
+                                  Padding(
+                                    padding:
+                                    const EdgeInsets.only(left: 5.0, bottom: 2.0),
+                                    child: Text(
+                                      '$age years old',
+                                      style: const TextStyle(
+                                          fontFamily: 'gabarito', color: Colors.black38),
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.location_on,
+                                          size: 20, color: Colors.teal),
+                                      const SizedBox(width: 4),
+                                      Flexible(
+                                        child: Text(
+                                          loc,
+                                          style: const TextStyle(
+                                            fontFamily: 'gabarito',
+                                            color: Colors.black38,
+                                            fontSize: 13,
                                           ),
+                                          softWrap: true,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: 5.0,bottom: 2.0),
-                                          child: Text(breed,style: TextStyle(fontFamily: 'gabarito',color: Colors.black54),),
-                                        ),
-
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: 5.0,bottom: 4.0),
-                                          child: Text('$age years old',style: TextStyle(fontFamily: 'gabarito',color: Colors.black38),),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Icon(Icons.location_on,size: 20,color: Colors.teal,),
-                                            Container(
-                                              width: 120,
-                                                child: Text('${loc} km',style:  TextStyle(fontFamily: 'gabarito',color: Colors.black26),))
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ))
-                              ],
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
                           ),
-                        );
-                      },
-                    );
-                  }
-                }
-            )
-        ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
+        },
       ),
     );
   }

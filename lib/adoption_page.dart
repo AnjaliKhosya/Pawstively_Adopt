@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'configuration.dart';
+import 'Configuration.dart';
 import 'detail_page.dart';
 class adoption extends StatefulWidget {
   VoidCallback opendrawer;
   String current_loc;
-  adoption(this.opendrawer,this.current_loc);
+  String? uid;
+  adoption(this.opendrawer,this.current_loc,this.uid);
   @override
   State<adoption> createState() => _adoptionState();
 }
@@ -86,39 +87,7 @@ class _adoptionState extends State<adoption> {
                     ),
                   ),
                 ),
-                //*****************Text field*****************************
-               /* Container(
 
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20)),
-
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 40.0,left: 8.0,right: 8.0),
-                    child: Container(
-                      height: 50,
-                      child: TextField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                              borderSide: BorderSide(width: 1,color: Colors.black)
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(width: 1,color: Colors.black),
-                              borderRadius: BorderRadius.circular(20)),
-                          hintText: 'Search pet to adopt',
-                          hintStyle: TextStyle(color: Colors.black38),
-                          prefixIcon: Icon(Icons.search,color: Colors.black54,),
-                        ),
-                        cursorColor: Colors.black,
-                        cursorHeight: 20,
-                        autocorrect: true,
-
-                      ),
-                    ),
-                  ),
-                ),*/
 
                 //********************** selection of pet ***********************
                 Padding(
@@ -173,7 +142,7 @@ class _adoptionState extends State<adoption> {
                 ),
                 //*******************List of pets**********************
                 if(itemType!="")
-                customcode(itemType,widget.current_loc),
+                customcode(itemType,widget.current_loc,widget.uid),
               ],
             ),
           ),
@@ -186,7 +155,8 @@ class _adoptionState extends State<adoption> {
 class customcode extends StatelessWidget {
   String itemType;
   String user_loc;
-  customcode(this.itemType,this.user_loc);
+  String? uid;
+  customcode(this.itemType,this.user_loc,this.uid);
   var color;
 
   @override
@@ -209,7 +179,7 @@ class customcode extends StatelessWidget {
                 {
                   // Access data from each document using 'documents[index].data()'
                   Map<String, dynamic>? documentData = documents[index].data() as Map<String, dynamic>?;
-
+                  String petId = documents[index].id;
                   // Use the null-aware operator to safely access the 'name' property
                   String name = documentData?['Name'] ?? 'N/A';
                   String gender = documentData?['Gender'] ?? 'N/A';
@@ -230,14 +200,14 @@ class customcode extends StatelessWidget {
                         color = Colors.blueGrey[300];
                       else
                         color = Colors.amber[200];
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>detail_page(name,ownername,resn,breed,age,imageurl,gender,color,loc,height,weight,price,contact_no)));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>detail_page(name,ownername,resn,breed,age,imageurl,gender,color,loc,height,weight,price,contact_no,uid,petId)));
 
                     },
                     child: Hero(
                       tag: 'drag',
                       child: Container(
                         margin:EdgeInsets.symmetric(horizontal: 20),
-                        height: 220,
+                        height: 230,
                         child: Row(
                           children: [
                             Expanded(
@@ -255,11 +225,24 @@ class customcode extends StatelessWidget {
                                   ),
                                  Align(
                                     child: Padding(
-                                      padding: const EdgeInsets.only(bottom: 8.0),
+                                      padding: const EdgeInsets.only(bottom: 15.0),
                                       child: Container(
                                         height: 160,
-                                          width: 130,
-                                          child: imageurl!=null?Image.network(imageurl):Container()),
+                                        width: 130,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(25),
+                                        ),
+                                        child: imageurl != null
+                                            ? ClipRRect(
+                                          borderRadius: BorderRadius.circular(25),
+                                          child: Image.network(
+                                            imageurl,
+                                            fit: BoxFit.cover, // optional: makes image cover the container nicely
+                                          ),
+                                        )
+                                            : Container(),
+                                      )
+
                                     ),
                                   ),
                                 ],
@@ -301,14 +284,24 @@ class customcode extends StatelessWidget {
                                     ),
                                     Row(
                                       children: [
-                                        Icon(Icons.location_on,size: 20,color: Colors.teal,),
-                                        Expanded(
-                                          child: Container(
-                                              width: 120,
-                                              child: Text(loc,style:  TextStyle(fontFamily: 'gabarito',color: Colors.black38,fontSize: 13),)),
-                                        )
+                                        Icon(Icons.location_on, size: 20, color: Colors.teal),
+                                        SizedBox(width: 4), // add some spacing
+                                        Flexible(
+                                          child: Text(
+                                            loc,
+                                            style: TextStyle(
+                                              fontFamily: 'gabarito',
+                                              color: Colors.black38,
+                                              fontSize: 13,
+                                            ),
+                                            softWrap: true,
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
                                       ],
                                     )
+
                                   ],
                                 ),
                               ),

@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "490080523248-8eekkheo480ls4f9h9vcicqrmrha3n75.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pet_adoption",
+            "certificate_hash": "d29af6ae7519e78b5eacca5083966fc2c8f54c59"
+          }
+        },
+        {
           "client_id": "490080523248-1scv3f9s1b4549398nnsijkho7lsiksg.apps.googleusercontent.com",
           "client_type": 3
         }
