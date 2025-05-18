@@ -18,6 +18,11 @@
 
 ---
 
+## 📷 App Screenshots
+<table> <tr> <td><img src="https://raw.githubusercontent.com/AnjaliKhosya/Pawstively_Adopt/7dd8081a098bfe87c6f4bf70c86a0f83a59a7b74/ScreenShots/WhatsApp%20Image%202025-05-18%20at%2022.08.19%20(1).jpeg" width="300"/></td> <td><img src="https://raw.githubusercontent.com/AnjaliKhosya/Pawstively_Adopt/7dd8081a098bfe87c6f4bf70c86a0f83a59a7b74/ScreenShots/WhatsApp%20Image%202025-05-18%20at%2022.08.19.jpeg" width="300"/></td> </tr> <tr> <td><img src="https://raw.githubusercontent.com/AnjaliKhosya/Pawstively_Adopt/7dd8081a098bfe87c6f4bf70c86a0f83a59a7b74/ScreenShots/WhatsApp%20Image%202025-05-18%20at%2022.08.20%20(1).jpeg" width="300"/></td> <td><img src="https://raw.githubusercontent.com/AnjaliKhosya/Pawstively_Adopt/7dd8081a098bfe87c6f4bf70c86a0f83a59a7b74/ScreenShots/WhatsApp%20Image%202025-05-18%20at%2022.08.20%20(2).jpeg" width="300"/></td> </tr> <tr> <td><img src="https://raw.githubusercontent.com/AnjaliKhosya/Pawstively_Adopt/7dd8081a098bfe87c6f4bf70c86a0f83a59a7b74/ScreenShots/WhatsApp%20Image%202025-05-18%20at%2022.08.20.jpeg" width="300"/></td> <td><img src="https://raw.githubusercontent.com/AnjaliKhosya/Pawstively_Adopt/7dd8081a098bfe87c6f4bf70c86a0f83a59a7b74/ScreenShots/WhatsApp%20Image%202025-05-18%20at%2022.08.21%20(1).jpeg" width="300"/></td> </tr> <tr> <td><img src="https://raw.githubusercontent.com/AnjaliKhosya/Pawstively_Adopt/7dd8081a098bfe87c6f4bf70c86a0f83a59a7b74/ScreenShots/WhatsApp%20Image%202025-05-18%20at%2022.08.21%20(2).jpeg" width="300"/></td> <td><img src="https://raw.githubusercontent.com/AnjaliKhosya/Pawstively_Adopt/7dd8081a098bfe87c6f4bf70c86a0f83a59a7b74/ScreenShots/WhatsApp%20Image%202025-05-18%20at%2022.08.21.jpeg" width="300"/></td> </tr> <tr> <td><img src="https://raw.githubusercontent.com/AnjaliKhosya/Pawstively_Adopt/7dd8081a098bfe87c6f4bf70c86a0f83a59a7b74/ScreenShots/WhatsApp%20Image%202025-05-18%20at%2022.08.22%20(1).jpeg" width="300"/></td> <td><img src="https://raw.githubusercontent.com/AnjaliKhosya/Pawstively_Adopt/7dd8081a098bfe87c6f4bf70c86a0f83a59a7b74/ScreenShots/WhatsApp%20Image%202025-05-18%20at%2022.08.22.jpeg" width="300"/></td> </tr> </table>
+
+---
+
 ## 🛠️ Built With
 
 - **Flutter** – UI development
