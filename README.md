@@ -1,16 +1,45 @@
-# pet_adoption
+# Pawstively Adopt 🐶🐱
 
-A new Flutter project.
+**Pawstively Adopt** is a Flutter-based mobile application that makes pet adoption easy, organized, and accessible. Users can browse pets by category, view detailed profiles, contact pet owners directly, and manage their favorites and personal listings.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 🚀 Features
 
-A few resources to get you started if this is your first Flutter project:
+- 🐕 **Group-wise Pet Listings** – Browse pets organized by species and categories.
+- 📄 **Pet Detail Page** – View detailed information, image, and owner details for each pet.
+- ❤️ **Favorites** – Save pets you love to a dedicated favorites section.
+- 🐾 **My Pets Section** – Add your own pets for adoption and manage (edit/delete) them anytime.
+- 📞 **Call Functionality** – One-tap call to contact the pet owner directly.
+- 🌟 **App Rating** – Users can rate the app through a dedicated feedback screen.
+- 🔐 **Google Sign-In** – Simple and secure authentication via Google.
+- ➕ **Add a Pet** – Upload pet images and details through a form interface.
+- 📜 **Privacy Policy Page** – Transparent privacy practices displayed in-app.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🛠️ Built With
+
+- **Flutter** – UI development
+- **Dart** – Programming language
+- **Firebase Firestore** – Real-time database
+- **Firebase Storage** – Image storage
+- **Firebase Authentication** – Google Sign-In
+
+---
+
+## 📲 Getting Started
+
+### Prerequisites
+
+- Flutter SDK (latest stable)
+- Android Studio / VS Code
+- Firebase configuration (`google-services.json` / `GoogleService-Info.plist`)
+
+### Installation
+
+```bash
+git clone https://github.com/AnjaliKhosya/Pawstively_Adopt.git
+cd Pawstively_Adopt
+flutter pub get
+flutter run
